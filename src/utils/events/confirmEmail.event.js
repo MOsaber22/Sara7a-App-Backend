@@ -17,7 +17,8 @@ eventEmitter.on("user.registered", async ({ email, userName }) => {
     const html = confirmEmailTemplate({ userName, confirmEmailLink });
     await sendEmail({ to: email, subject: "Confirm Your Email", html });
   } catch (error) {
-    throw new Error("Error sending confirmation email:");
+    console.error("Confirmation Email Error:", error);
+    throw new Error("Error sending confirmation email", {cause: error});
   }
 });
 
@@ -35,7 +36,9 @@ eventEmitter.on("deactivation.request", async ({user, otp}) => {
       html,
     });
   } catch (error) {
-    throw new Error("Error sending confirmation email:");
+    console.error("Deactivation OTP Email Error:", error);
+    
+    throw new Error("Error sending confirmation email", {cause: error});
   }
 });
 
@@ -53,6 +56,7 @@ eventEmitter.on("reactivation.request", async ({user, otp}) => {
       html,
     });
   } catch (error) {
-    throw new Error("Error sending confirmation email:");
+    console.error("Reactivation OTP Email Error:", error);
+    throw new Error("Error sending confirmation email:", {cause: error});
   }
 });
